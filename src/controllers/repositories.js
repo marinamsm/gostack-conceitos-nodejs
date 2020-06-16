@@ -26,7 +26,8 @@ module.exports = {
     updateRepository (request, response) {
         const { body } = request;
         const { id } = request.params;
-        repositories.filter(repository => {
+        let result = null;
+        const repos = repositories.filter(repository => {
             if (repository.id === id) {
                 for(const key in body) {
                     if (key in repository && key !== 'likes') {
@@ -34,11 +35,18 @@ module.exports = {
                     }
                 }
 
-                return response.json(repository);
+                result = repository;
+                return repository;
             }
+
+            return null;
         });
 
-        response.status(404).json('Repository not found');
+        if (repos.length === 0) {
+            return response.status(404).json('Repository not found');
+        }
+
+        response.json(result);
     },
     
     deleteRepository (request, response) {

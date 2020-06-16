@@ -6,15 +6,22 @@ const repositories = getRepositoriesDataStructure();
 module.exports = {
     createLike (request, response) {
         const { id } = request.params;
+        let result = null;
         
-        repositories.map(repo => {
+        const repos = repositories.map(repo => {
             if(repo.id === id) {
                 repo.likes++;
-
-                return response.json(repo);
+                result = repo;
+                return repo;
             }
+
+            return null;
         })
 
-        response.status(404).json('Repository not found');
+        if (repos.length === 0) {
+            return response.status(404).json('Repository not found');
+        }
+
+        response.json(result);
     }
 }
