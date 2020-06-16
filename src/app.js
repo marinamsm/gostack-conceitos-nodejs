@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const repositoryController = require("./controllers/repositories");
+const likeController = require("./controllers/likes");
 
 const app = express();
 
@@ -17,8 +18,6 @@ app.put("/repositories/:id", repositoryController.updateRepository);
 
 app.delete("/repositories/:id", repositoryController.deleteRepository);
 
-app.post("/repositories/:id/like", (request, response) => {
-  // TODO
-});
+app.post("/repositories/:id/like", likeController.createLike);
 
 module.exports = app;
