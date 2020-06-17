@@ -14,7 +14,7 @@ module.exports = {
         };
         repositories.push(newRepo);
 
-        response.status(201).json(repositories);
+        response.status(201).json(newRepo);
     },
 
     index(request, response) {

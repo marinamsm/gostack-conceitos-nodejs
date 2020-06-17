@@ -8,7 +8,7 @@ module.exports = {
         const { id } = request.params;
         let result = null;
         
-        const repos = repositories.map(repo => {
+        const repos = repositories.filter(repo => {
             if(repo.id === id) {
                 repo.likes++;
                 result = repo;
