@@ -51,12 +51,11 @@ module.exports = {
     
     deleteRepository (request, response) {
         const { id } = request.params;
-        let index = -1;
         const repos = [...repositories];
 
         for(let i = 0; i < repos.length; i++) {
             if (repos[i].id === id) {
-                repositories.splice(index, 1);
+                repositories.splice(i, 1);
                 return response.status(204).send();
             }
         }

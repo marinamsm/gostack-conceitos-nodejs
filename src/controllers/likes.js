@@ -1,4 +1,3 @@
-const { uuid } = require("uuidv4");
 const { getRepositoriesDataStructure } = require('./repositories');
 
 const repositories = getRepositoriesDataStructure();
