@@ -18,7 +18,7 @@ module.exports = {
         })
 
         if (repos.length === 0) {
-            return response.status(404).json('Repository not found');
+            return response.status(400).json('Repository not found');
         }
 
         response.json(result);
