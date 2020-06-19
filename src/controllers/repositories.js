@@ -24,43 +24,40 @@ module.exports = {
     },
 
     updateRepository (request, response) {
-        const { body } = request;
         const { id } = request.params;
-        let result = null;
-        const repos = repositories.filter(repository => {
-            if (repository.id === id) {
-                for(const key in body) {
-                    if (key in repository && key !== 'likes') {
-                        repository[key] = body[key];
-                    }
-                }
+        const { title, url, techs } = request.body;
 
-                result = repository;
-                return repository;
-            }
+        const repoIndex = repositories.findIndex(repo => repo.id === id)
 
-            return null;
-        });
-
-        if (repos.length === 0) {
+        if (repoIndex < 0) {
             return response.status(400).json('Repository not found');
         }
 
-        response.json(result);
+        const updatedRepository = {
+            id,
+            title,
+            url,
+            techs,
+            likes: repositories[repoIndex].likes
+        }
+
+        repositories[repoIndex] = updatedRepository;
+
+        response.json(updatedRepository);
     },
     
     deleteRepository (request, response) {
         const { id } = request.params;
-        const repos = [...repositories];
 
-        for(let i = 0; i < repos.length; i++) {
-            if (repos[i].id === id) {
-                repositories.splice(i, 1);
-                return response.status(204).send();
-            }
+        const repoIndex = repositories.findIndex(repo => repo.id === id)
+
+        if (repoIndex < 0) {
+            return response.status(400).json('Repository not found');
         }
 
-        response.status(400).json('Repository not found');
+        repositories.splice(repoIndex, 1);
+
+        response.status(204).send();
     },
     
     getRepositoriesDataStructure() {

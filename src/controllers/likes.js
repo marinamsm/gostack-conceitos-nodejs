@@ -7,20 +7,14 @@ module.exports = {
         const { id } = request.params;
         let result = null;
         
-        const repos = repositories.filter(repo => {
-            if(repo.id === id) {
-                repo.likes++;
-                result = repo;
-                return repo;
-            }
+        const repoIndex = repositories.findIndex(repo => repo.id === id)
 
-            return null;
-        })
-
-        if (repos.length === 0) {
+        if (repoIndex < 0) {
             return response.status(400).json('Repository not found');
         }
 
-        response.json(result);
+        repositories[repoIndex].likes++;
+    
+        response.json(repositories[repoIndex]);
     }
 }
